@@ -1,2 +1,2 @@
-# LogicAss
+# Logic Assignment
 Logic Assignment Codes
