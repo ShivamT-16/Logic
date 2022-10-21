@@ -16,18 +16,22 @@ public:
 	}
 };
 
+void node_add(node** node_holder, char* atom){
+	node *nn = new node(*atom);
+	*node_holder = nn;
+}
+
 char *treeCreator(node **node_holder, char *atom)
 {
 	if (*atom == '\0')
 		return NULL;
-	//
-	while (1)
+
+	for(int i=0;i<2;i++)
 	{
 		char *temp = NULL;
 		if (*node_holder == NULL)
 		{
-			node *nn = new node(*atom);
-			*node_holder = nn;
+			node_add(node_holder,atom);
 		}
 		else
 		{
