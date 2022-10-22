@@ -215,8 +215,8 @@ int main(){
     cout<<"Please enter an Infix expression :";
     cout<<endl<<endl<<"Creating Parse tree from given Prefix expression..."<<endl;
     node *root = NULL;
-	string prefix = ">p+qq";        
-	treeCreator(&root, &prefix[0]);
+    string prefix = ">p+qq";        
+    treeCreator(&root, &prefix[0]);
     cout<<"Tree created successfully :)"<<endl<<endl;
 
     int n=1;
@@ -243,12 +243,7 @@ int main(){
         else{cout<<"Try again please!";}
         n++;
         }
-        /*cout<<"Do you want to have restart(0 for no,1 for yes): ";
-        int in2;
-        cin>>in2;cout<<endl;
-        if (in2==1){main();}
-        else{cout<<"Thank You!!";
-            return 0;}*/
+ 
         cout<<endl<<"Thank You!";
     return 0;
 }
