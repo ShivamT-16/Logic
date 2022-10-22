@@ -2,54 +2,66 @@
 using namespace std;
 #include<string>
 
-/*class stack{
-    private:
-        int size,top;
-        char arr[size];
+class stack{
+        
+    // Custom Stack class
     public:
-        stack(int size){
-            this->size = size;
+        int top,size;
+        char *arr=NULL;
+        // Constructor
+        stack(int cap){
+            size = cap;// cap- max capacity of stack
             top=-1;
+            arr =new char[size];
         }
+        
         bool isEmpty(){
-            if (top==-1){
+            // To check if stack is empty
+            if (top<=-1){
                 return 1;
             }
-            else if(top>=0){
+            else{
                 return 0;
             }
         }
         bool isFull(){
-            if (top>=size){
+            // To check if stack is Full
+            if (top>=size-1){
                 return 1;
             }
             else{
                 return 0;
             }
         }
-        void push(char item){
+        void push(int item){
+            // Pushing a new item into the stack
             if (isFull()){
-                cout<<"Overflow : Cant push";
+                // Checking for overflow condition
+                cout<<"Overflow: Cant push";
             }
             else{
-                top++;
+                top+=1;
                 arr[top] = item;
             }
         }
         void pop(){
+            // Remving item at top
             if (isEmpty()){
-                cout<<"Underflow : Cant pop";
+                // Checking for underflow condition
+                cout<<"Underflow: Cant pop";
             }
             else{
-                top--;
-                cout<<arr[top];
+                //cout<<arr[top];
+                top-=1;
             }
         }
-        char peek{
+        char peek(){
+            // Function to return topmost element of stack
             if (!isEmpty()){
                 return arr[top];}
+            else{return '\0';}
         }
-};*/
+};
 
 class node{
     public:
@@ -57,7 +69,6 @@ class node{
         char atom;    // value at current node 
         node *right;   // pointer to left subtree
         bool truthValue;    // truth value of atom
-        string inorder;
 
         node(char val){
             this->atom = val;
@@ -65,15 +76,118 @@ class node{
             this->left = NULL; 
             this->right = NULL;
         }
-
-        node(char val,bool b){  // overloaded constructor to set truth value of atom
-            this->atom = val;
-            // making left and right pointers point to NULL
-            this->left = NULL; 
-            this->right = NULL;
-            truthValue=b;   // setting truth value of atom
-        }
     };
+
+
+bool is_operator(char c)
+{
+	// To check if character is an operator(not an alphabet/digit)
+    return (!isalpha(c) && !isdigit(c));
+}
+
+int order(char C)
+{
+    // Setting priority for operators
+	if (C == '*' || C == '+')
+		return 1;
+	else if (C == '>')
+		return 2;
+	else if (C == '~')
+		return 3;
+	return 0;
+}
+
+string reverse(string s){
+    // Function to reverse given string
+    int l = s.length()-1;
+    string rev;
+    for(int i=l;i>=0;i--){
+        rev=rev+s[i];
+    }
+    return rev;
+}
+
+string in_to_post(string in)
+{
+	// Infix to Postfix
+    in = '(' + in + ')';
+	int l = in.length();
+	stack *char_stack = new stack(l);
+	string output;
+
+	for (int i = 0; i < l; i++) {
+
+		if (isalpha(in[i]) || isdigit(in[i])) {
+		    
+			output += in[i];
+		} else if (in[i] == '(') {
+		    
+			char_stack->push('(');
+		} else if (in[i] == ')') {
+		    
+			while (char_stack->peek() != '(') {
+				output += char_stack->peek();
+				char_stack->pop();
+			}
+			
+			char_stack->pop();
+			
+		} else {
+		    
+			if (is_operator(char_stack->peek())) {
+			    
+				if(in[i]=='>') {
+				    
+					while (order(in[i]) <= order(char_stack->peek())) {
+						output+=char_stack->peek();
+						char_stack->pop();
+					}
+				}
+				else
+				{
+					while (order(in[i]) < order(char_stack->peek()))
+					{
+						output+=char_stack->peek();
+						char_stack->pop();
+					}
+					
+				}
+
+				char_stack->push(in[i]);
+			}
+		}
+	}
+	while(!char_stack->isEmpty()){
+		output+=char_stack->peek();
+		char_stack->pop();
+	}
+	return output;
+}
+
+string post_to_pre(string in)
+{
+	// Postfix to Prefix
+    int l = in.length();
+	string s1 = reverse(in);
+    string s2;
+
+	for (int i = 0; i < l; i++) {
+
+		if (s1[i] == '(') {
+			s2+=')';
+		}
+		else if (s1[i] == ')') {
+			s2+='(';
+		}
+        else{
+            s2+=s1[i];
+        }
+	}
+
+	string pre = in_to_post(s2);
+	string pre_ = reverse(pre);
+	return pre_;
+}
 
 // Function to add a node
 void node_add(node** node_holder, char* atom){
@@ -212,11 +326,14 @@ bool evaluate(node* n)  // Function to evaluate parse tree and return result (ta
 int main(){
 
     cout<<"Welcome to our Project :)"<<endl<<endl;
-    cout<<"Please enter an Infix expression :";
-    cout<<endl<<endl<<"Creating Parse tree from given Prefix expression..."<<endl;
+    cout<<"Please enter an Infix expression : ";
+    string str;
+    cin>>str;
+    cout<<endl<<"Prefix form"<<endl<< post_to_pre(str) <<endl;
+    cout<<endl<<"Creating Parse tree from given Prefix expression..."<<endl;
     node *root = NULL;
-    string prefix = ">p+qq";        
-    treeCreator(&root, &prefix[0]);
+	string prefix = post_to_pre(str);        
+	treeCreator(&root, &prefix[0]);
     cout<<"Tree created successfully :)"<<endl<<endl;
 
     int n=1;
@@ -243,7 +360,6 @@ int main(){
         else{cout<<"Try again please!";}
         n++;
         }
- 
         cout<<endl<<"Thank You!";
     return 0;
 }
