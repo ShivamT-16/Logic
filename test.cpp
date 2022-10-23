@@ -33,7 +33,7 @@ class stack{
                 return 0;
             }
         }
-        void push(int item){
+        void push(char item){
             // Pushing a new item into the stack
             if (isFull()){
                 // Checking for overflow condition
@@ -45,7 +45,7 @@ class stack{
             }
         }
         void pop(){
-            // Remving item at top
+            // Removing item at top
             if (isEmpty()){
                 // Checking for underflow condition
                 cout<<"Underflow: Cant pop";
