@@ -2,15 +2,16 @@
 using namespace std;
 #include<string>
 
+/// Custom Stack class 
 class stack{
         
-    /// Custom Stack class 
     public:
         int top,size;
         char *arr=NULL;
         // Constructor
         stack(int cap){
-            size = cap;/// cap- max capacity of stack
+	/// cap- max capacity of stack
+            size = cap;
             top=-1;
             arr =new char[size];
         }
@@ -148,8 +149,9 @@ class boolOps{
             }
         }
 
-        bool evaluate(node* n)  /// Function to evaluate parse tree and return result (task 5) 
+        bool evaluate(node* n)  
         {
+	/// Function to evaluate parse tree and return result (task 5) 
             static string a1;
             static string a2;
             if (n->left == NULL){
@@ -182,8 +184,8 @@ class boolOps{
 class strOps{
     public:
         boolOps *b1 = new boolOps();
+	/// Function to reverse given string 
         string reverse(string s){
-            /// Function to reverse given string 
             int l = s.length()-1;
             string rev;
             for(int i=l;i>=0;i--){
