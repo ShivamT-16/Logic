@@ -26,7 +26,7 @@ char *treeCreator(node **node_holder, char *atom)
 	if (*atom == '\0')
 		return NULL;
 
-	for(int i=0;i<2;i++)
+	while(1)
 	{
 		char *temp = NULL;
 		if (*node_holder == NULL)
@@ -39,6 +39,11 @@ char *treeCreator(node **node_holder, char *atom)
 			{
 				return atom;
 			}
+            if(*atom=='~'){
+                temp = treeCreator(&((*node_holder)->right), atom + 1);
+			    return temp;
+            }
+
 			temp = treeCreator(&((*node_holder)->left), atom + 1);
 			temp = treeCreator(&((*node_holder)->right), temp + 1);
 			return temp;
@@ -49,7 +54,7 @@ char *treeCreator(node **node_holder, char *atom)
 int main()
 {
 	node *root = NULL;
-	string prefix = ">p*qr";
+	string prefix = ">p*q~r";
 	treeCreator(&root, &prefix[0]);
 	return 0;
 }
