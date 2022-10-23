@@ -65,10 +65,14 @@ class stack{
 
 class node{
     public:
-        node *left;   /// pointer to left subtree 
-        char atom;    /// value at current node  
-        node *right;   /// pointer to left subtree 
-        bool truthValue;    /// truth value of atom 
+	/// pointer to left subtree 
+        node *left;   
+	/// value at current node  
+        char atom;   
+	/// pointer to left subtree 
+        node *right;   
+	/// truth value of atom
+        bool truthValue;    
 
         node(char val){
             this->atom = val;
