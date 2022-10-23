@@ -135,7 +135,7 @@ class boolOps{
             if (op=='+'){
                 return (b1 || b2) ;
             }
-            /// IMPLIES Implication 
+            /// IMPLIES Implementation
             if (op=='>'){
                     return (eval('~',b1) || b2) ;
                 }
