@@ -8,7 +8,7 @@ class stack{
     public:
         int top,size;
         char *arr=NULL;
-        // Constructor
+        /// Constructor
         stack(int cap){
 	/// cap- max capacity of stack
             size = cap;
@@ -16,8 +16,8 @@ class stack{
             arr =new char[size];
         }
         
+	/// To check if stack is empty 
         bool isEmpty(){
-            /// To check if stack is empty 
             if (top<=-1){
                 return 1;
             }
@@ -25,8 +25,8 @@ class stack{
                 return 0;
             }
         }
+	/// To check if stack is Full 
         bool isFull(){
-            /// To check if stack is Full 
             if (top>=size-1){
                 return 1;
             }
@@ -34,8 +34,9 @@ class stack{
                 return 0;
             }
         }
+	/// Pushing a new item into the stack 
         void push(char item){
-            /// Pushing a new item into the stack 
+            
             if (isFull()){
                 /// Checking for overflow condition
                 cout<<"Overflow: Cant push";
@@ -45,8 +46,9 @@ class stack{
                 arr[top] = item;
             }
         }
+	/// Removing item at top 
         void pop(){
-            /// Removing item at top 
+            
             if (isEmpty()){
                 /// Checking for underflow condition
                 cout<<"Underflow: Cant pop";
@@ -56,8 +58,9 @@ class stack{
                 top-=1;
             }
         }
+	/// Function to return topmost element of stack
         char peek(){
-            /// Function to return topmost element of stack 
+             
             if (!isEmpty()){
                 return arr[top];}
             else{return '\0';}
@@ -77,7 +80,7 @@ class node{
 
         node(char val){
             this->atom = val;
-            // making left and right pointers point to NULL
+            /// making left and right pointers point to NULL
             this->left = NULL; 
             this->right = NULL;
         }
@@ -85,9 +88,9 @@ class node{
 
 class boolOps{
     public:
+	/// To check if character is an operator(not an alphabet/digit)
         bool is_operator(char c)
-        {
-            /// To check if character is an operator(not an alphabet/digit) 
+        { 
             return (!isalpha(c) && !isdigit(c));
         }
 
@@ -149,9 +152,9 @@ class boolOps{
             }
         }
 
+	/// Function to evaluate parse tree and return result (task 5) 
         bool evaluate(node* n)  
         {
-	/// Function to evaluate parse tree and return result (task 5) 
             static string a1;
             static string a2;
             if (n->left == NULL){
@@ -194,9 +197,9 @@ class strOps{
             return rev;
         }
 
+	/// Infix to Postfix
         string in_to_post(string in)
-        {
-            /// Infix to Postfix 
+        { 
             in = '(' + in + ')';
             int l = in.length();
             stack *char_stack = new stack(l);
@@ -250,10 +253,11 @@ class strOps{
             }
             return output;
         }
-
+	
+/// Postfix to Prefix 
         string post_to_pre(string in)
         {
-            /// Postfix to Prefix 
+            
             int l = in.length();
             strOps *s3 = new strOps();
             string s1 = s3->reverse(in);
