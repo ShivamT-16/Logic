@@ -4,19 +4,19 @@ using namespace std;
 
 class stack{
         
-    // Custom Stack class
+    /// Custom Stack class 
     public:
         int top,size;
         char *arr=NULL;
         // Constructor
         stack(int cap){
-            size = cap;// cap- max capacity of stack
+            size = cap;/// cap- max capacity of stack
             top=-1;
             arr =new char[size];
         }
         
         bool isEmpty(){
-            // To check if stack is empty
+            /// To check if stack is empty 
             if (top<=-1){
                 return 1;
             }
@@ -25,7 +25,7 @@ class stack{
             }
         }
         bool isFull(){
-            // To check if stack is Full
+            /// To check if stack is Full 
             if (top>=size-1){
                 return 1;
             }
@@ -33,10 +33,10 @@ class stack{
                 return 0;
             }
         }
-        void push(int item){
-            // Pushing a new item into the stack
+        void push(char item){
+            /// Pushing a new item into the stack 
             if (isFull()){
-                // Checking for overflow condition
+                /// Checking for overflow condition
                 cout<<"Overflow: Cant push";
             }
             else{
@@ -45,9 +45,9 @@ class stack{
             }
         }
         void pop(){
-            // Remving item at top
+            /// Removing item at top 
             if (isEmpty()){
-                // Checking for underflow condition
+                /// Checking for underflow condition
                 cout<<"Underflow: Cant pop";
             }
             else{
@@ -56,7 +56,7 @@ class stack{
             }
         }
         char peek(){
-            // Function to return topmost element of stack
+            /// Function to return topmost element of stack 
             if (!isEmpty()){
                 return arr[top];}
             else{return '\0';}
@@ -65,10 +65,10 @@ class stack{
 
 class node{
     public:
-        node *left;   // pointer to left subtree
-        char atom;    // value at current node 
-        node *right;   // pointer to left subtree
-        bool truthValue;    // truth value of atom
+        node *left;   /// pointer to left subtree 
+        char atom;    /// value at current node  
+        node *right;   /// pointer to left subtree 
+        bool truthValue;    /// truth value of atom 
 
         node(char val){
             this->atom = val;
@@ -82,13 +82,13 @@ class boolOps{
     public:
         bool is_operator(char c)
         {
-            // To check if character is an operator(not an alphabet/digit)
+            /// To check if character is an operator(not an alphabet/digit) 
             return (!isalpha(c) && !isdigit(c));
         }
 
         int order(char C)
         {
-            // Setting priority for operators
+            /// Setting priority for operators 
             if (C == '*' || C == '+')
                 return 1;
             else if (C == '>')
@@ -98,6 +98,7 @@ class boolOps{
             return 0;
         }
 
+         /// To find index of char in string 
         int index(char c,string s){ 
         for(int i=0;i<s.length();i++){
             if (s[i]==c){
@@ -106,6 +107,7 @@ class boolOps{
         }
         return -1;
         }
+        /// To check if char is found inside string 
         bool inside(char c,string s){
             for(int i=0;i<s.length();i++){
                 if (s[i]==c){
@@ -116,7 +118,7 @@ class boolOps{
         }
 
         bool eval(char op,bool b1){
-            // function to return complement of atom (NOT Implementation)
+            /// function to return complement of atom (NOT Implementation) 
             if (op=='~'){
                 return (!b1) ;}
             else{
@@ -125,15 +127,15 @@ class boolOps{
             }
 
         bool eval(char op,bool b1,bool b2){
-            // AND Implementation
+            /// AND Implementation 
             if (op=='*'){
                 return (b1 && b2) ;
             }
-            // OR Implementation
+            /// OR Implementation 
             if (op=='+'){
                 return (b1 || b2) ;
             }
-            // IMPLIES Implication
+            /// IMPLIES Implication 
             if (op=='>'){
                     return (eval('~',b1) || b2) ;
                 }
@@ -142,7 +144,7 @@ class boolOps{
             }
         }
 
-        bool evaluate(node* n)  // Function to evaluate parse tree and return result (task 5)
+        bool evaluate(node* n)  /// Function to evaluate parse tree and return result (task 5) 
         {
             static string a1;
             static string a2;
@@ -177,7 +179,7 @@ class strOps{
     public:
         boolOps *b1 = new boolOps();
         string reverse(string s){
-            // Function to reverse given string
+            /// Function to reverse given string 
             int l = s.length()-1;
             string rev;
             for(int i=l;i>=0;i--){
@@ -188,7 +190,7 @@ class strOps{
 
         string in_to_post(string in)
         {
-            // Infix to Postfix
+            /// Infix to Postfix 
             in = '(' + in + ')';
             int l = in.length();
             stack *char_stack = new stack(l);
@@ -245,7 +247,7 @@ class strOps{
 
         string post_to_pre(string in)
         {
-            // Postfix to Prefix
+            /// Postfix to Prefix 
             int l = in.length();
             strOps *s3 = new strOps();
             string s1 = s3->reverse(in);
@@ -272,21 +274,21 @@ class strOps{
 
 class tree{
     public:
-        // Function to add a node
+        /// Function to add a node 
         void node_add(node** node_holder, char* atom){
             node *nn = new node(*atom);
             *node_holder = nn;
         }
 
-        // Function to create parse tree from prefix expression(task2)
+        /// Function to create parse tree from prefix expression(task2) 
         char *treeCreator(node **node_holder, char *atom)
         {
             if (*atom == '\0')
                 return NULL;
 
-            for(int i=0;i<2;i++)
-            {
-                char *temp = NULL;
+            while(1)
+	        {
+		        char *temp = NULL;
                 if (*node_holder == NULL)
                 {
                     node_add(node_holder,atom);
@@ -297,34 +299,38 @@ class tree{
                     {
                         return atom;
                     }
+                    if(*atom=='~'){
+                        temp = treeCreator(&((*node_holder)->right), atom + 1);
+                        return temp;
+                    }
+
                     temp = treeCreator(&((*node_holder)->left), atom + 1);
                     temp = treeCreator(&((*node_holder)->right), temp + 1);
                     return temp;
                 }
             }
-            return NULL;
         }
 
-        // Function to return In-order traversal of tree as string(Task 4)
+        /// Function to return In-order traversal of tree as string(Task 4) 
         void inOrder(node *root){
                 if (root!=NULL){   
-                    inOrder(root->left);  // traverse left subtree
-                    cout<<root->atom<<" ";   // printing value at current node
-                    inOrder(root->right);  // traverse right subtree
+                    inOrder(root->left);  /// traverse left subtree
+                    cout<<root->atom<<" ";   /// printing value at current node
+                    inOrder(root->right);  /// traverse right subtree
                     }
                 }
 
-        // Function to return height of tree (task 3)
+        /// Function to return height of tree (task 3) 
         int height(node *root)
         {
             if (root == NULL){
                 return 0; }  
             else {
-            // finding the height of each subtree 
+            /// finding the height of each subtree  
                 int height_left = height(root->left);
                 int height_right = height(root->right);
         
-                // We shall use the larger subtree to proceed further 
+                /// We shall use the larger subtree to proceed further  
                 if (height_left > height_right){
                     return (height_left + 1);}
                 else{
